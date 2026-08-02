@@ -34,8 +34,30 @@ img{max-width:100%; display:block;}
 .photo-wrap{position:relative; z-index:2; display:flex; justify-content:center; margin-bottom:-42px;}
 .expert-photo{width:86px; height:86px; border-radius:50%; object-fit:cover; border:4px solid var(--white); box-shadow:0 4px 12px rgba(15,44,89,0.18);}
 .hero-card{background:var(--pastel); border:1.5px solid var(--navy); border-radius:18px; padding:52px 20px 22px; position:relative; box-shadow:0 4px 18px rgba(15,44,89,0.08); text-align:left;}
-.hero-card .sub{font-size:17px; color:var(--ink); font-weight:700; text-align:center; margin-bottom:6px; line-height:1.35;}
-.hero-card .sub-time{font-size:14px; color:var(--blue-dark); font-weight:600; text-align:center; margin-bottom:14px;}
+.hero-card .sub{font-size:17.5px; color:var(--ink); font-weight:700; text-align:center; margin-bottom:12px; line-height:1.35;}
+
+/* Sotto-riquadro dedicato con sfondo caldo e mirato al beneficio */
+.hero-benefit-box{
+  background: #FEF3E2; 
+  border: 1.5px solid #F5D6B0; 
+  border-radius: 12px; 
+  padding: 14px 16px; 
+  margin: 14px 0 16px; 
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(245, 174, 112, 0.15);
+}
+.benefit-title{
+  font-size: 17px; 
+  font-weight: 800; 
+  color: #8A4B08; 
+  margin-bottom: 4px;
+}
+.benefit-time{
+  font-size: 15px; 
+  font-weight: 700; 
+  color: #A05C12;
+}
+
 .hero-card .divider{height:1px; background:var(--pastel-border); margin:12px 0;}
 .hero-card .body-text{font-size:16px; color:var(--muted); margin-bottom:20px; line-height:1.55;}
 
@@ -142,7 +164,13 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
       </div>
       <div class="hero-card">
         <p class="sub">Take the quick 5-question quiz below to see if this approach is right for you.</p>
-        <p class="sub-time">⏱️ Takes only 30 seconds • Get your free custom report instantly</p>
+        
+        <!-- NUOVO BOX DEDICATO AL BENEFICIO E TARGET OVER 55 -->
+        <div class="hero-benefit-box">
+          <div class="benefit-title">🎁 Get Your Free Custom Report Instantly</div>
+          <div class="benefit-time">⏱️ Takes only 30 seconds</div>
+        </div>
+
         <div class="divider"></div>
         <div class="body-text">Many people over 50 are switching to a simple morning routine that supports daily auditory clarity — completely skipping hard-to-swallow capsules. Crafted to nourish inner ear wellness and daily focus, this refreshing liquid preparation relies on a specialized blend of core natural nutrients.</div>
         <button class="btn" onclick="goToStep(1)">START QUIZ →</button>
