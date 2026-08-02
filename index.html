@@ -71,6 +71,31 @@ img{max-width:100%; display:block;}
 .btn:hover{background:var(--blue-dark);}
 .btn:active{transform:scale(0.99);}
 
+/* Stile per il bottone interattivo con anello di progresso (Opzione A) */
+.btn-progress-wrap {
+  position: relative;
+  width: 100%;
+  margin-top: 14px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.btn-progress-wrap .btn {
+  margin-top: 0 !important;
+  position: relative;
+  z-index: 2;
+  background: var(--blue);
+}
+.btn-progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: rgba(15, 95, 192, 0.45);
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
 .q-body{padding:4px 0 20px;}
 .q-title{font-size:19px; font-weight:700; color:var(--ink); margin:8px 0 12px; line-height:1.3;}
 .opts{display:flex; flex-direction:column; gap:8px;}
@@ -175,6 +200,9 @@ img{max-width:100%; display:block;}
 .testimonial-author{
   font-size:12.5px; font-weight:700; color:var(--navy); text-align:right;
 }
+.testimonials-disclaimer{
+  font-size:11.5px; color:var(--muted-2); text-align:center; margin-top:10px; font-style:italic;
+}
 
 footer{padding:16px 0 24px; text-align:center;}
 footer .compliance{font-size:11px; color:var(--muted-2); line-height:1.45; margin-bottom:8px;}
@@ -272,16 +300,19 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
       <div class="report-editorial-box" style="border-left-color: var(--green);">
         <h3>The Trusted Choice Worldwide: Quality & Safety You Can Rely On</h3>
         <p>When supporting delicate auditory pathways, purity, safety, and proven efficacy are everything. Crafted in an advanced facility under the strictest quality standards, this 100% natural liquid formula bypasses harsh synthetic fillers to deliver targeted nourishment safely.</p>
-        <p>The results speak for themselves: with <b>over 137,395 bottles shipped worldwide</b>, this breakthrough has earned its place as the <b>2026 Best-Seller</b> in natural auditory wellness. Thousands of happy clients have finally returned to enjoying clear, effortless conversations with family and friends without the frustration of listening fatigue.</p>
+        <p>The results speak for themselves: according to the brand's own sales data, over 137,000 bottles have shipped worldwide, and this breakthrough has earned its place as the 2026 Best-Seller in natural auditory wellness. Thousands of happy clients have finally returned to enjoying clear, effortless conversations with family and friends without the frustration of listening fatigue. <b>Backed by a full 90-day, 100% satisfaction-or-your-money-back guarantee.</b></p>
       </div>
 
       <!-- Alert di scarsità posizionato prima del pulsante -->
       <div class="urgency">⚠️ <b>Extreme Demand Alert:</b> Due to recent media features and a massive surge in popularity, current inventory for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
 
-      <!-- Pulsante con simulazione di controllo disponibilità prima del redirect -->
-      <button class="btn" id="checkAvailabilityBtn" onclick="handleAffiliateRedirect(event)" style="margin-top:14px;">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</button>
+      <!-- Pulsante con animazione di progressoOpzione A -->
+      <div class="btn-progress-wrap">
+        <div class="btn-progress-ring" id="btnProgressRing"></div>
+        <button class="btn" id="checkAvailabilityBtn" onclick="handleAffiliateRedirect(event)">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</button>
+      </div>
 
-      <!-- Sezione Testimonianze in Inglese sul nostro servizio indipendente -->
+      <!-- Sezione Testimonianze in Inglese sul nostro servizio indipendente con nota discreta aggiunta -->
       <div class="testimonials-section">
         <div class="testimonials-title">What Users Say About Our Independent Service</div>
         
@@ -299,6 +330,8 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
           <p class="testimonial-text">"The transparency of this comparator really impressed me. It directed me straight to the right formulation while checking live availability. Highly recommended!"</p>
           <div class="testimonial-author">— John B. (71)</div>
         </div>
+
+        <div class="testimonials-disclaimer">Feedback shared by early testers. Individual results and experiences may vary.</div>
       </div>
 
     </div>
@@ -570,7 +603,7 @@ function startAnalysis(){
   const steps = [
     { text: "Processing responses and auditory profile...", width: "33%" },
     { text: "Evaluating sound receptive response and liquid absorption compatibility...", width: "66%" },
-    { text: "Database search: cross-referencing answers, excluding pills, and compiling your custom scientific report (142 actives — 14 bottles remaining)", width: "100%" },
+    { text: "Database search: cross-referencing answers, excluding pills, and compiling your custom scientific report...", width: "100%" },
     { text: "Analysis successfully completed! Preparing your free report...", width: "100%" }
   ];
 
@@ -622,17 +655,36 @@ function startAnalysis(){
   runSequence();
 }
 
-/* Simulazione controllo disponibilità prima del redirect finale */
+/* Gestione Opzione A: Anello di progresso sul bordo del bottone e fasi multiple */
 function handleAffiliateRedirect(event){
   event.preventDefault();
   const btn = document.getElementById('checkAvailabilityBtn');
-  btn.style.backgroundColor = "#d97706";
-  btn.innerHTML = "Checking live inventory & batch availability...";
+  const ring = document.getElementById('btnProgressRing');
+  
   btn.disabled = true;
+  btn.style.backgroundColor = "transparent";
+  btn.style.color = "#0F2C59";
+  
+  // Fase 1
+  ring.style.width = "35%";
+  btn.innerHTML = "Checking live inventory...";
+  
+  setTimeout(() => {
+    // Fase 2
+    ring.style.width = "75%";
+    btn.innerHTML = "Confirming your spot...";
+  }, 1000);
+  
+  setTimeout(() => {
+    // Fase 3
+    ring.style.width = "100%";
+    ring.style.background = "rgba(47, 133, 90, 0.35)";
+    btn.innerHTML = "Redirecting to official website ✓";
+  }, 2200);
 
   setTimeout(() => {
     window.location.href = "https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b";
-  }, 1500);
+  }, 3000);
 }
 </script>
 
