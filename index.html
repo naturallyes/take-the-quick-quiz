@@ -34,7 +34,8 @@ img{max-width:100%; display:block;}
 .photo-wrap{position:relative; z-index:2; display:flex; justify-content:center; margin-bottom:-42px;}
 .expert-photo{width:86px; height:86px; border-radius:50%; object-fit:cover; border:4px solid var(--white); box-shadow:0 4px 12px rgba(15,44,89,0.18);}
 .hero-card{background:var(--pastel); border:1.5px solid var(--navy); border-radius:18px; padding:52px 20px 22px; position:relative; box-shadow:0 4px 18px rgba(15,44,89,0.08); text-align:left;}
-.hero-card .sub{font-size:17px; color:var(--ink); font-weight:700; text-align:center; margin-bottom:14px; line-height:1.35;}
+.hero-card .sub{font-size:17px; color:var(--ink); font-weight:700; text-align:center; margin-bottom:6px; line-height:1.35;}
+.hero-card .sub-time{font-size:14px; color:var(--blue-dark); font-weight:600; text-align:center; margin-bottom:14px;}
 .hero-card .divider{height:1px; background:var(--pastel-border); margin:12px 0;}
 .hero-card .body-text{font-size:16px; color:var(--muted); margin-bottom:20px; line-height:1.55;}
 
@@ -98,8 +99,18 @@ img{max-width:100%; display:block;}
   display:inline-block; background:var(--green); color:#fff; font-weight:800; font-size:15px;
   padding:8px 18px; border-radius:30px; margin-bottom:14px;
 }
-.report-wrap h2{font-size:22px; font-weight:700; margin-bottom:10px;}
-.report-wrap .sub{font-size:16px; color:var(--muted); margin-bottom:20px; line-height:1.55;}
+.report-wrap h2{font-size:22px; font-weight:700; margin-bottom:10px; color:var(--navy);}
+.report-wrap .sub{font-size:15.5px; color:var(--muted); margin-bottom:20px; line-height:1.6; text-align:left;}
+
+.report-editorial-box{
+  background:var(--white); border:1px solid var(--border); border-left:4px solid var(--blue);
+  border-radius:var(--radius); padding:20px; margin-bottom:20px; text-align:left;
+  box-shadow:0 2px 8px rgba(0,0,0,0.03);
+}
+.report-editorial-box h3{font-size:17px; font-weight:800; color:var(--navy); margin-bottom:12px;}
+.report-editorial-box p{font-size:14.5px; color:var(--muted); line-height:1.65; margin-bottom:12px;}
+.report-editorial-box p:last-child{margin-bottom:0;}
+
 .urgency{
   background:#FDF3EC; border:1px solid #F3D9C2; border-radius:var(--radius);
   padding:14px; margin-top:16px; text-align:left; font-size:14px; color:#8A5A2B; line-height:1.45;
@@ -131,6 +142,7 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
       </div>
       <div class="hero-card">
         <p class="sub">Take the quick 5-question quiz below to see if this approach is right for you.</p>
+        <p class="sub-time">⏱️ Takes only 30 seconds • Get your free custom report instantly</p>
         <div class="divider"></div>
         <div class="body-text">Many people over 50 are switching to a simple morning routine that supports daily auditory clarity — completely skipping hard-to-swallow capsules. Crafted to nourish inner ear wellness and daily focus, this refreshing liquid preparation relies on a specialized blend of core natural nutrients.</div>
         <button class="btn" onclick="goToStep(1)">START QUIZ →</button>
@@ -173,11 +185,23 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
   <section class="screen" id="screen-report">
     <div class="report-wrap">
       <div class="match-badge">✅ Evaluation Successfully Completed!</div>
-      <h2>Here Is The Most Suitable Treatment For Your Profile</h2>
-      <p class="sub" id="dynamicReportSub">Based on your provided answers, the system has identified the most appropriate sublingual liquid protocol to support your hearing needs and promote clear, effortless conversations, excluding traditional pills.<br><br>Over 14,200 users with a similar profile have verified the availability of this formulation.</p>
-      <a class="btn" href="https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</a>
+      <h2>Here Is Your Free Custom Report & Analysis</h2>
+      <p class="sub" id="dynamicReportSub">Based on your quiz responses, our analysis has mapped out your specific auditory profile and identified the precise natural mechanism required to support your daily hearing clarity.</p>
+      
+      <div class="report-editorial-box">
+        <h3>Your Personalized Scientific Findings:</h3>
+        <div id="dynamicReportText"></div>
+      </div>
+
+      <div class="report-editorial-box" style="border-left-color: var(--green);">
+        <h3>The Trusted Choice Worldwide: Quality & Safety You Can Rely On</h3>
+        <p>When supporting delicate auditory pathways, purity, safety, and proven efficacy are everything. Crafted in an advanced facility under the strictest quality standards, this 100% natural liquid formula bypasses harsh synthetic fillers to deliver targeted nourishment safely.</p>
+        <p>The results speak for themselves: with <b>over 137,395 bottles shipped worldwide</b>, this breakthrough has earned its place as the <b>2026 Best-Seller</b> in natural auditory wellness. Thousands of happy clients have finally returned to enjoying clear, effortless conversations with family and friends without the frustration of listening fatigue.</p>
+      </div>
+
+      <a class="btn" href="https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b" style="margin-top:20px;">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</a>
       <img src="oldmanyes.jpeg" alt="" style="border-radius:var(--radius); margin-top:16px;">
-      <div class="urgency">⚠️ <b>High Demand Alert:</b> Due to recent media features, stock availability for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
+      <div class="urgency">⚠️ <b>Extreme Demand Alert:</b> Due to recent media features and a massive surge in popularity, current inventory for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
     </div>
   </section>
 
@@ -235,8 +259,7 @@ const QUESTIONS = [
     {text:"More than 5 years", icon:"calendar", trigger:true}
   ],
   card:{
-    title:"Inner Ear Micro-Vessels & Blood Flow",
-    body:"Clinical research on vascular health indicates that the cochlea and inner ear rely on an extremely delicate network of micro-capillaries. Maintaining optimal micro-circulation is vital for delivering essential oxygen, minerals, and active nutrients directly to auditory sensory cells to preserve long-term clarity."
+    text:"Clinical research on vascular health indicates that the cochlea and inner ear rely on an extremely delicate network of micro-capillaries. Maintaining optimal micro-circulation is vital for delivering essential oxygen, minerals, and active nutrients directly to auditory sensory cells to preserve long-term clarity."
   }
 },
 {
@@ -260,8 +283,7 @@ const QUESTIONS = [
     {text:"I follow a strict organic, antioxidant-rich diet daily", icon:"leaf"}
   ],
   card:{
-    title:"Oxidative Stress and Cellular Defense",
-    body:"Research on botanical antioxidants — such as standardized Ginkgo Biloba extracts — demonstrates their capacity to help neutralize free radicals and support delicate neural and sensory structures against age-related oxidative wear."
+    text:"Research on botanical antioxidants — such as standardized Ginkgo Biloba extracts — demonstrates their capacity to help neutralize free radicals and support delicate neural and sensory structures against age-related oxidative wear."
   }
 },
 {
@@ -285,8 +307,7 @@ const QUESTIONS = [
     {text:"Yes, but I am open to a more advanced, specialized formula", icon:"drop", trigger:true}
   ],
   card:{
-    title:"Sublingual Bioavailability vs. Standard Pills",
-    body:"Clinical pharmacology research shows that liquid sublingual delivery systems can bypass first-pass hepatic metabolism, allowing active compounds and calming botanical factors to reach systemic circulation and target tissues more efficiently than traditional hard capsules."
+    text:"Clinical pharmacology research shows that liquid sublingual delivery systems can bypass first-pass hepatic metabolism, allowing active compounds and calming botanical factors to reach systemic circulation and target tissues more efficiently than traditional hard capsules."
   }
 },
 {
@@ -299,8 +320,7 @@ const QUESTIONS = [
     {text:"I prefer traditional capsules over liquids", icon:"pill"}
   ],
   card:{
-    title:"Targeted Auditory Support & Neural Comfort",
-    body:"Research combining specific plant-based extracts with high-absorption liquid carriers suggests support for neurological signaling harmony within the auditory cortex, potentially reducing the perception of daily cognitive strain related to hearing effort."
+    text:"Research combining specific plant-based extracts with high-absorption liquid carriers suggests support for neurological signaling harmony within the auditory cortex, potentially reducing the perception of daily cognitive strain related to hearing effort."
   },
   final:true
 }
@@ -308,6 +328,7 @@ const QUESTIONS = [
 
 let currentQ = 0;
 const answers = {};
+const collectedCards = [];
 
 function goToStep(step){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -351,8 +372,8 @@ function renderQuestion(){
   manualCta.classList.remove('show');
 
   if(isTriggered){
-    document.getElementById('icTitle').textContent = q.card.title;
-    document.getElementById('icBody').textContent = q.card.body;
+    document.getElementById('icTitle').textContent = "Auditory Research Insight";
+    document.getElementById('icBody').textContent = q.card.text;
     insightCard.classList.add('show');
     manualCta.classList.add('show');
   }
@@ -366,12 +387,15 @@ function selectOption(idx){
   answers[q.n] = idx;
 
   if(q.card && q.options[idx].trigger){
+    if(!collectedCards.some(c => c.text === q.card.text)){
+      collectedCards.push(q.card);
+    }
     const optsWrap = document.getElementById('qOpts');
     optsWrap.innerHTML = '';
     optsWrap.appendChild(buildOptionButton(q, idx, true));
 
-    document.getElementById('icTitle').textContent = q.card.title;
-    document.getElementById('icBody').textContent = q.card.body;
+    document.getElementById('icTitle').textContent = "Auditory Research Insight";
+    document.getElementById('icBody').textContent = q.card.text;
     document.getElementById('insightCard').classList.add('show');
     document.getElementById('manualCta').classList.add('show');
     document.getElementById('manualBtn').textContent = q.final ? 'START DATA ANALYSIS…' : 'NEXT STEP';
@@ -416,14 +440,24 @@ function buildDynamicReport(){
   else if(a1 === 1) part1 = "Given that this issue mainly emerges when background chatter increases,";
   else if(a1 === 2 || a1 === 3) part1 = "Given the goal of maintaining optimal auditory clarity over time,";
 
-  let part2 = "the system recommends adopting the targeted sublingual liquid protocol designed to favor clarity and reduce listening fatigue.";
-  if(a5 === 0) part2 = "the system has selected the liquid treatment indicated to reduce mental exhaustion caused by listening effort.";
-  else if(a5 === 1) part2 = "the solution identified by the database is the liquid preparation studied to regain clarity even in multi-voice conversations.";
-  else if(a5 === 2 || a5 === 3) part2 = "the system recommends adopting the targeted sublingual liquid protocol designed to favor clarity and reduce listening fatigue.";
+  let part2 = "our analysis indicates that adopting the targeted sublingual liquid protocol is ideal to favor clarity and reduce listening fatigue.";
+  if(a5 === 0) part2 = "our database has selected the liquid treatment indicated to reduce mental exhaustion caused by listening effort.";
+  else if(a5 === 1) part2 = "the solution identified is the liquid preparation studied to regain clarity even in multi-voice conversations.";
+  else if(a5 === 2 || a5 === 3) part2 = "our analysis indicates that adopting the targeted sublingual liquid protocol is ideal to favor clarity and reduce listening fatigue.";
 
-  const dynamicText = `${part1} ${part2}<br><br>Over 14,200 adults with similar characteristics have verified the availability of this specific formulation.`;
+  let combinedInsights = "";
+  if(collectedCards.length > 0){
+    combinedInsights = collectedCards.map(c => c.text).join(" ");
+  } else {
+    combinedInsights = "Maintaining a proactive approach combining natural botanical support and healthy lifestyle habits ensures long-term ear wellness and clear daily interactions.";
+  }
+
+  const dynamicHTML = `
+    <p>${part1} ${part2}</p>
+    <p>${combinedInsights}</p>
+  `;
   
-  document.getElementById('dynamicReportSub').innerHTML = dynamicText;
+  document.getElementById('dynamicReportText').innerHTML = dynamicHTML;
 }
 
 function startAnalysis(){
@@ -437,8 +471,8 @@ function startAnalysis(){
   const steps = [
     { text: "Processing responses and auditory profile...", width: "33%" },
     { text: "Evaluating sound receptive response and liquid absorption compatibility...", width: "66%" },
-    { text: "Database search: cross-referencing answers, excluding pills, and selecting the best custom liquid formulation (142 actives — 14 bottles remaining)", width: "100%" },
-    { text: "Analysis successfully completed! Preparing report...", width: "100%" }
+    { text: "Database search: cross-referencing answers, excluding pills, and compiling your custom scientific report (142 actives — 14 bottles remaining)", width: "100%" },
+    { text: "Analysis successfully completed! Preparing your free report...", width: "100%" }
   ];
 
   let i = 0;
