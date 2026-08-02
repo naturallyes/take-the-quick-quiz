@@ -79,20 +79,20 @@ img{max-width:100%; display:block;}
 .nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:14px;}
 .nav-link{color:var(--blue); text-decoration:underline; cursor:pointer; background:none; border:none; font-family:'Inter',sans-serif; font-size:14px; padding:0;}
 
+/* Schermata di Analisi Ottimizzata (Box Centrale Sequenziale) */
 .analysis-wrap{padding:24px 0 30px; text-align:center;}
-.analysis-wrap .expert-photo{margin-bottom:16px;}
-.analysis-wrap h2{font-size:20px; font-weight:700; margin-bottom:14px;}
-.checklist{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
-.check-item{
-  display:flex; align-items:center; gap:12px; text-align:left; padding:14px;
-  border-radius:var(--radius); background:#F0F3F7; opacity:.55; transition:opacity .3s ease, background .3s ease;
+.analysis-wrap .expert-photo{margin:0 auto 16px;}
+.analysis-card{
+  background:var(--pastel); border:1.5px solid var(--pastel-border); border-radius:14px;
+  padding:24px 16px; margin:16px 0; min-height:130px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
 }
-.check-item.active{opacity:1; background:var(--pastel);}
-.check-item.done{opacity:1; background:#EAF6EF;}
-.check-icon{width:26px; height:26px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--border); color:#fff; font-size:13px;}
-.check-item.active .check-icon{background:var(--blue);}
-.check-item.done .check-icon{background:var(--green);}
-.check-item span.txt{font-size:15px; font-weight:700; color:var(--ink);}
+.spinner-icon{
+  width:32px; height:32px; border:4px solid var(--border); border-top-color:var(--blue);
+  border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:14px; flex-shrink:0; display:block;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.step-text{font-size:16.5px; font-weight:700; color:var(--navy); line-height:1.4; transition:opacity 0.2s ease;}
 
 .report-wrap{padding:24px 0 30px; text-align:center;}
 .match-badge{
@@ -158,24 +158,26 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
     </div>
   </section>
 
+  <!-- Schermata di Analisi Sequenziale a Box Unico -->
   <section class="screen" id="screen-analysis">
     <div class="analysis-wrap">
       <img class="expert-photo" src="oldhappymen.jpg" alt="Wellness Advisor">
-      <h2 id="analysisHeadline">Analyzing Your Responses...</h2>
-      <div class="progress-track"><div class="progress-fill" id="analysisFill"></div></div>
-      <div class="checklist">
-        <div class="check-item" id="check1"><div class="check-icon">1</div><span class="txt">Analyzing Your Responses</span></div>
-        <div class="check-item" id="check2"><div class="check-icon">2</div><span class="txt">Evaluating Inner Ear Micro-Circulation Compatibility</span></div>
-        <div class="check-item" id="check3"><div class="check-icon">3</div><span class="txt">Finalizing Results</span></div>
+      
+      <div class="analysis-card">
+        <div id="stepIcon" class="spinner-icon"></div>
+        <div id="stepText" class="step-text">Elaborazione delle risposte e del profilo uditivo...</div>
       </div>
+
+      <div class="progress-track"><div class="progress-fill" id="analysisFill"></div></div>
     </div>
   </section>
 
+  <!-- Schermata Report Finale (Terza parte / Indipendente) -->
   <section class="screen" id="screen-report">
     <div class="report-wrap">
-      <div class="match-badge">✅ Your Personalized Evaluation Is Ready!</div>
-      <h2>96% Compatibility Confirmed:</h2>
-      <p class="sub" id="dynamicReportSub">Your answers match the ideal profile for the advanced sublingual liquid protocol designed to help you enjoy clear, effortless conversations with family and friends again.<br><br>Join over 14,200 adults who have made the switch to this targeted liquid routine for daily auditory clarity.</p>
+      <div class="match-badge">✅ Valutazione Completata con Successo!</div>
+      <h2>Ecco il Trattamento Più Adatto al Tuo Profilo</h2>
+      <p class="sub" id="dynamicReportSub">In base alle risposte fornite, il sistema ha identificato il protocollo liquido sublinguale più idoneo per supportare le tue esigenze uditive e favorire conversazioni chiare e senza sforzo, escludendo le tradizionali pillole.<br><br>Oltre 14.200 utenti con un profilo simile hanno verificato la disponibilità di questa formulazione.</p>
       <a class="btn" href="https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</a>
       <img src="oldmanyes.jpeg" alt="" style="border-radius:var(--radius); margin-top:16px;">
       <div class="urgency">⚠️ <b>High Demand Alert:</b> Due to recent media features, stock availability for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
@@ -412,57 +414,81 @@ function buildDynamicReport(){
   const a1 = answers[1];
   const a5 = answers[5];
 
-  let part1 = "Since this shows up for you often, especially in busier settings,";
-  if(a1 === 0) part1 = "Since this shows up for you almost daily, especially in busier settings,";
-  else if(a1 === 1) part1 = "Since you mainly notice this when background chatter picks up,";
-  else if(a1 === 2 || a1 === 3) part1 = "Since you're focused on staying ahead of this before it becomes a bigger issue,";
+  let part1 = "Considerando che questa difficoltà si presenta spesso nei contesti più affollati,";
+  if(a1 === 0) part1 = "Considerando che questa difficoltà si manifesta quasi quotidianamente, soprattutto in ambienti rumorosi,";
+  else if(a1 === 1) part1 = "Visto che la criticità emerge principalmente quando aumenta il brusio di fondo,";
+  else if(a1 === 2 || a1 === 3) part1 = "Dato l'obiettivo di mantenere una nitidezza uditiva ottimale nel tempo,";
 
-  let part2 = "providing the targeted daily support your ears need to stay sharp,";
-  if(a5 === 0) part2 = "easing that mental fatigue from straining to follow along,";
-  else if(a5 === 1) part2 = "cutting through the noise when conversations get lost in a crowded room,";
-  else if(a5 === 2 || a5 === 3) part2 = "providing the targeted daily support your ears need to stay sharp,";
+  let part2 = "il sistema raccomanda l'adozione del protocollo liquido sublinguale mirato a favorire la chiarezza e ridurre l'affaticamento da ascolto.";
+  if(a5 === 0) part2 = "il sistema ha selezionato il trattamento liquido indicato per ridurre l'affaticamento mentale causato dallo sforzo di ascolto.";
+  else if(a5 === 1) part2 = "la soluzione individuata dal database è il preparato liquido studiato per ritrovare chiarezza anche nelle conversazioni a più voci.";
+  else if(a5 === 2 || a5 === 3) part2 = "il sistema raccomanda l'adozione del protocollo liquido sublinguale mirato a favorire la chiarezza e ridurre l'affaticamento da ascolto.";
 
-  const dynamicText = `${part1} ${part2} your answers match the ideal profile for the advanced sublingual liquid protocol designed to help you enjoy clear, effortless conversations with family and friends again.<br><br>Join over 14,200 adults who have made the switch to this targeted liquid routine for daily auditory clarity.`;
+  const dynamicText = `${part1} ${part2}<br><br>Oltre 14.200 adulti con caratteristiche analoghe hanno verificato la disponibilità di questa specifica formulazione.`;
   
   document.getElementById('dynamicReportSub').innerHTML = dynamicText;
 }
 
+// Logica di analisi aggiornata con sequenza a frase singola, spinner e spunta verde
 function startAnalysis(){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-analysis').classList.add('active');
 
-  const headline = document.getElementById('analysisHeadline');
+  const stepText = document.getElementById('stepText');
+  const stepIcon = document.getElementById('stepIcon');
   const fill = document.getElementById('analysisFill');
-  const c1 = document.getElementById('check1');
-  const c2 = document.getElementById('check2');
-  const c3 = document.getElementById('check3');
 
-  const phases = [
-    { text:"Analyzing your daily habit preferences...", width:"33%", active:c1 },
-    { text:"Verifying nutritional compatibility index...", width:"66%", active:c2, done:c1 },
-    { text:"Checking availability for the 90-day guarantee offer...", width:"90%", active:c3, done:c2 },
-    { text:"Success! Redirecting you to the official presentation...", width:"100%", done:c3 }
+  const steps = [
+    { text: "Elaborazione delle risposte e del profilo uditivo...", width: "33%", type: "spin" },
+    { text: "Valutazione della risposta recettiva ai suoni e compatibilità con l'assorbimento liquido...", width: "66%", type: "spin" },
+    { text: "Ricerca nel database: incrocio risposte, esclusione pillole e selezione della migliore formulazione liquida su misura (142 attivi — 14 flaconi rimasti)", width: "100%", type: "spin" },
+    { text: "Analisi completata con successo! Preparazione report...", width: "100%", type: "check" }
   ];
 
   let i = 0;
-  function runPhase(){
-    const p = phases[i];
-    headline.textContent = p.text;
-    fill.style.width = p.width;
-    if(p.done){ p.done.classList.remove('active'); p.done.classList.add('done'); }
-    if(p.active) p.active.classList.add('active');
-    i++;
-    if(i < phases.length){
-      setTimeout(runPhase, 1500);
+
+  function runSequence(){
+    if(i < steps.length){
+      const current = steps[i];
+      fill.style.width = current.width;
+      stepText.style.opacity = 0;
+      
+      setTimeout(() => {
+        stepText.textContent = current.text;
+        
+        if(current.type === "check" || i === steps.length - 1){
+          stepIcon.style.animation = "none";
+          stepIcon.style.border = "none";
+          stepIcon.style.background = "var(--green)";
+          stepIcon.style.color = "#fff";
+          stepIcon.style.display = "flex";
+          stepIcon.style.alignItems = "center";
+          stepIcon.style.justifyContent = "center";
+          stepIcon.innerHTML = "✓";
+        } else {
+          stepIcon.style.background = "transparent";
+          stepIcon.style.border = "4px solid var(--border)";
+          stepIcon.style.borderTopColor = "var(--blue)";
+          stepIcon.innerHTML = "";
+        }
+        
+        stepText.style.opacity = 1;
+      }, 200);
+
+      i++;
+      let delay = (i === steps.length) ? 2000 : 2500;
+      setTimeout(runSequence, delay);
+
     } else {
       setTimeout(()=>{
-        c3.classList.remove('active'); c3.classList.add('done');
         document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
         document.getElementById('screen-report').classList.add('active');
-      }, 1500);
+      }, 500);
     }
   }
-  runPhase();
+
+  stepText.style.transition = "opacity 0.2s ease";
+  runSequence();
 }
 </script>
 
