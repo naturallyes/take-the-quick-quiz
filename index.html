@@ -105,6 +105,15 @@ img{max-width:100%; display:block;}
 
 .analysis-wrap{padding:20px 0 24px; text-align:center;}
 .analysis-wrap .expert-photo{margin:0 auto 14px;}
+
+/* Stile per il testo di attesa anti-abbandono */
+.analysis-notice{
+  background:#EFF6FF; border:1px solid #BFDBFE; color:#1E40AF;
+  padding:12px 14px; border-radius:8px; font-size:14px; font-weight:600;
+  text-align:center; margin-bottom:14px; line-height:1.45;
+  box-shadow:0 2px 6px rgba(30,64,175,0.05);
+}
+
 .analysis-card{
   background:var(--pastel); border:1.5px solid var(--pastel-border); border-radius:14px;
   padding:20px 14px; margin:14px 0; min-height:120px;
@@ -229,6 +238,11 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
     <div class="analysis-wrap">
       <img class="expert-photo" src="oldhappymen.jpg" alt="Wellness Advisor">
       
+      <!-- Testo anti-abbandono inserito esattamente come richiesto -->
+      <div class="analysis-notice">
+        Please wait a few seconds while we finalize your custom analysis. Do not close this page — your Free Custom Report is being generated now...
+      </div>
+
       <div class="analysis-card">
         <div id="stepIcon" class="spinner-icon"></div>
         <div id="stepText" class="step-text">Processing responses and auditory profile...</div>
