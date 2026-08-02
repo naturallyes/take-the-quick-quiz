@@ -79,7 +79,6 @@ img{max-width:100%; display:block;}
 .nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:14px;}
 .nav-link{color:var(--blue); text-decoration:underline; cursor:pointer; background:none; border:none; font-family:'Inter',sans-serif; font-size:14px; padding:0;}
 
-/* Schermata di Analisi Ottimizzata (Box Centrale Sequenziale) */
 .analysis-wrap{padding:24px 0 30px; text-align:center;}
 .analysis-wrap .expert-photo{margin:0 auto 16px;}
 .analysis-card{
@@ -158,26 +157,24 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
     </div>
   </section>
 
-  <!-- Schermata di Analisi Sequenziale a Box Unico -->
   <section class="screen" id="screen-analysis">
     <div class="analysis-wrap">
       <img class="expert-photo" src="oldhappymen.jpg" alt="Wellness Advisor">
       
       <div class="analysis-card">
         <div id="stepIcon" class="spinner-icon"></div>
-        <div id="stepText" class="step-text">Elaborazione delle risposte e del profilo uditivo...</div>
+        <div id="stepText" class="step-text">Processing responses and auditory profile...</div>
       </div>
 
       <div class="progress-track"><div class="progress-fill" id="analysisFill"></div></div>
     </div>
   </section>
 
-  <!-- Schermata Report Finale (Terza parte / Indipendente) -->
   <section class="screen" id="screen-report">
     <div class="report-wrap">
-      <div class="match-badge">✅ Valutazione Completata con Successo!</div>
-      <h2>Ecco il Trattamento Più Adatto al Tuo Profilo</h2>
-      <p class="sub" id="dynamicReportSub">In base alle risposte fornite, il sistema ha identificato il protocollo liquido sublinguale più idoneo per supportare le tue esigenze uditive e favorire conversazioni chiare e senza sforzo, escludendo le tradizionali pillole.<br><br>Oltre 14.200 utenti con un profilo simile hanno verificato la disponibilità di questa formulazione.</p>
+      <div class="match-badge">✅ Evaluation Successfully Completed!</div>
+      <h2>Here Is The Most Suitable Treatment For Your Profile</h2>
+      <p class="sub" id="dynamicReportSub">Based on your provided answers, the system has identified the most appropriate sublingual liquid protocol to support your hearing needs and promote clear, effortless conversations, excluding traditional pills.<br><br>Over 14,200 users with a similar profile have verified the availability of this formulation.</p>
       <a class="btn" href="https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</a>
       <img src="oldmanyes.jpeg" alt="" style="border-radius:var(--radius); margin-top:16px;">
       <div class="urgency">⚠️ <b>High Demand Alert:</b> Due to recent media features, stock availability for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
@@ -190,7 +187,7 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
   <div class="wrap">
     <div class="compliance">This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc. The information provided on this site is for educational and informational purposes only and is not intended as medical advice. Always consult with a qualified healthcare professional regarding any medical condition or dietary changes.</div>
     <div class="links"><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a></div>
-    <div class="copy">© 2026 NaturallYes Evaluation Board. All rights reserved.</div>
+    <div class="copy">© 2026 Naturallys Evaluation Board. All rights reserved.</div>
   </div>
 </footer>
 
@@ -414,22 +411,21 @@ function buildDynamicReport(){
   const a1 = answers[1];
   const a5 = answers[5];
 
-  let part1 = "Considerando che questa difficoltà si presenta spesso nei contesti più affollati,";
-  if(a1 === 0) part1 = "Considerando che questa difficoltà si manifesta quasi quotidianamente, soprattutto in ambienti rumorosi,";
-  else if(a1 === 1) part1 = "Visto che la criticità emerge principalmente quando aumenta il brusio di fondo,";
-  else if(a1 === 2 || a1 === 3) part1 = "Dato l'obiettivo di mantenere una nitidezza uditiva ottimale nel tempo,";
+  let part1 = "Considering that this difficulty often appears in crowded environments,";
+  if(a1 === 0) part1 = "Considering that this difficulty occurs almost daily, especially in noisy environments,";
+  else if(a1 === 1) part1 = "Given that this issue mainly emerges when background chatter increases,";
+  else if(a1 === 2 || a1 === 3) part1 = "Given the goal of maintaining optimal auditory clarity over time,";
 
-  let part2 = "il sistema raccomanda l'adozione del protocollo liquido sublinguale mirato a favorire la chiarezza e ridurre l'affaticamento da ascolto.";
-  if(a5 === 0) part2 = "il sistema ha selezionato il trattamento liquido indicato per ridurre l'affaticamento mentale causato dallo sforzo di ascolto.";
-  else if(a5 === 1) part2 = "la soluzione individuata dal database è il preparato liquido studiato per ritrovare chiarezza anche nelle conversazioni a più voci.";
-  else if(a5 === 2 || a5 === 3) part2 = "il sistema raccomanda l'adozione del protocollo liquido sublinguale mirato a favorire la chiarezza e ridurre l'affaticamento da ascolto.";
+  let part2 = "the system recommends adopting the targeted sublingual liquid protocol designed to favor clarity and reduce listening fatigue.";
+  if(a5 === 0) part2 = "the system has selected the liquid treatment indicated to reduce mental exhaustion caused by listening effort.";
+  else if(a5 === 1) part2 = "the solution identified by the database is the liquid preparation studied to regain clarity even in multi-voice conversations.";
+  else if(a5 === 2 || a5 === 3) part2 = "the system recommends adopting the targeted sublingual liquid protocol designed to favor clarity and reduce listening fatigue.";
 
-  const dynamicText = `${part1} ${part2}<br><br>Oltre 14.200 adulti con caratteristiche analoghe hanno verificato la disponibilità di questa specifica formulazione.`;
+  const dynamicText = `${part1} ${part2}<br><br>Over 14,200 adults with similar characteristics have verified the availability of this specific formulation.`;
   
   document.getElementById('dynamicReportSub').innerHTML = dynamicText;
 }
 
-// Logica di analisi aggiornata con sequenza a frase singola, spinner e spunta verde
 function startAnalysis(){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-analysis').classList.add('active');
@@ -439,10 +435,10 @@ function startAnalysis(){
   const fill = document.getElementById('analysisFill');
 
   const steps = [
-    { text: "Elaborazione delle risposte e del profilo uditivo...", width: "33%", type: "spin" },
-    { text: "Valutazione della risposta recettiva ai suoni e compatibilità con l'assorbimento liquido...", width: "66%", type: "spin" },
-    { text: "Ricerca nel database: incrocio risposte, esclusione pillole e selezione della migliore formulazione liquida su misura (142 attivi — 14 flaconi rimasti)", width: "100%", type: "spin" },
-    { text: "Analisi completata con successo! Preparazione report...", width: "100%", type: "check" }
+    { text: "Processing responses and auditory profile...", width: "33%", type: "spin" },
+    { text: "Evaluating sound receptive response and liquid absorption compatibility...", width: "66%", type: "spin" },
+    { text: "Database search: cross-referencing answers, excluding pills, and selecting the best custom liquid formulation (142 actives — 14 bottles remaining)", width: "100%", type: "spin" },
+    { text: "Analysis successfully completed! Preparing report...", width: "100%", type: "check" }
   ];
 
   let i = 0;
@@ -476,7 +472,7 @@ function startAnalysis(){
       }, 200);
 
       i++;
-      let delay = (i === steps.length) ? 2000 : 2500;
+      let delay = (i === steps.length) ? 3000 : 3500;
       setTimeout(runSequence, delay);
 
     } else {
