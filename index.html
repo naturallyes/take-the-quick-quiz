@@ -175,7 +175,7 @@ footer .copy{font-size:11.5px; color:#B0B6C0; margin-top:8px;}
     <div class="report-wrap">
       <div class="match-badge">✅ Your Personalized Evaluation Is Ready!</div>
       <h2>96% Compatibility Confirmed:</h2>
-      <p class="sub">Your answers match the ideal profile for the advanced sublingual liquid protocol designed to help you enjoy clear, effortless conversations with family and friends again.<br><br>Join over 14,200 adults who have made the switch to this targeted liquid routine for daily auditory clarity.</p>
+      <p class="sub" id="dynamicReportSub">Your answers match the ideal profile for the advanced sublingual liquid protocol designed to help you enjoy clear, effortless conversations with family and friends again.<br><br>Join over 14,200 adults who have made the switch to this targeted liquid routine for daily auditory clarity.</p>
       <a class="btn" href="https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</a>
       <img src="oldmanyes.jpeg" alt="" style="border-radius:var(--radius); margin-top:16px;">
       <div class="urgency">⚠️ <b>High Demand Alert:</b> Due to recent media features, stock availability for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
@@ -389,6 +389,7 @@ function selectOption(idx){
 function advance(){
   const q = QUESTIONS[currentQ];
   if(q.final){
+    buildDynamicReport();
     startAnalysis();
     return;
   }
@@ -405,6 +406,25 @@ function goPrev(){
   }
   currentQ--;
   renderQuestion();
+}
+
+function buildDynamicReport(){
+  const a1 = answers[1];
+  const a5 = answers[5];
+
+  let part1 = "Since this shows up for you often, especially in busier settings,";
+  if(a1 === 0) part1 = "Since this shows up for you almost daily, especially in busier settings,";
+  else if(a1 === 1) part1 = "Since you mainly notice this when background chatter picks up,";
+  else if(a1 === 2 || a1 === 3) part1 = "Since you're focused on staying ahead of this before it becomes a bigger issue,";
+
+  let part2 = "providing the targeted daily support your ears need to stay sharp,";
+  if(a5 === 0) part2 = "easing that mental fatigue from straining to follow along,";
+  else if(a5 === 1) part2 = "cutting through the noise when conversations get lost in a crowded room,";
+  else if(a5 === 2 || a5 === 3) part2 = "providing the targeted daily support your ears need to stay sharp,";
+
+  const dynamicText = `${part1} ${part2} your answers match the ideal profile for the advanced sublingual liquid protocol designed to help you enjoy clear, effortless conversations with family and friends again.<br><br>Join over 14,200 adults who have made the switch to this targeted liquid routine for daily auditory clarity.`;
+  
+  document.getElementById('dynamicReportSub').innerHTML = dynamicText;
 }
 
 function startAnalysis(){
