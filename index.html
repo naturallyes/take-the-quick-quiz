@@ -93,7 +93,7 @@ img{max-width:100%; display:block;}
   z-index: 1;
 }
 
-.q-body{padding:4px 0 20px;}
+.q-body{padding:4px 0 12px;}
 .q-title{font-size:19px; font-weight:700; color:var(--ink); margin:8px 0 12px; line-height:1.3;}
 .opts{display:flex; flex-direction:column; gap:8px;}
 .opt{
@@ -119,13 +119,13 @@ img{max-width:100%; display:block;}
 .insight-card .ic-title{font-size:15px; font-weight:700; color:var(--ink); margin-bottom:4px; display:flex; align-items:center; gap:6px;}
 .insight-card p{font-size:14px; color:var(--muted); margin:0; line-height:1.45;}
 
-.manual-cta{margin-top:12px; display:none;}
+.manual-cta{margin-top:10px; display:none;}
 .manual-cta.show{display:block;}
 
-.nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:13.5px;}
+.nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:13.5px;}
 .nav-link{color:var(--blue); text-decoration:underline; cursor:pointer; background:none; border:none; font-family:'Inter',sans-serif; font-size:13.5px; padding:0;}
 
-.analysis-wrap{padding:20px 0 24px; text-align:center;}
+.analysis-wrap{padding:20px 0 16px; text-align:center;}
 .analysis-wrap .expert-photo{margin:0 auto 14px;}
 
 .analysis-notice{
@@ -197,7 +197,10 @@ img{max-width:100%; display:block;}
   font-size:11.5px; color:var(--muted-2); text-align:center; margin-top:10px; font-style:italic;
 }
 
-footer{padding:16px 0 24px; text-align:center;}
+/* Footer nascosto di default e visibile solo sul report finale */
+footer{display:none; padding:16px 0 24px; text-align:center;}
+footer.visible{display:block;}
+
 footer .compliance{font-size:11px; color:var(--muted-2); line-height:1.45; margin-bottom:8px; text-align:justify;}
 footer .links{font-size:11.5px; color:var(--muted-2);}
 footer .links a{color:var(--muted-2); text-decoration:underline; cursor:pointer;}
@@ -378,7 +381,7 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
 
 </div>
 
-<footer>
+<footer id="pageFooter">
   <div class="wrap">
     <div class="compliance">
       This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.<br><br>
@@ -546,11 +549,25 @@ let currentQ = 0;
 const answers = {};
 const collectedCards = [];
 
+function updateFooterVisibility(show) {
+  const footer = document.getElementById('pageFooter');
+  if (show) {
+    footer.classList.add('visible');
+  } else {
+    footer.classList.remove('visible');
+  }
+}
+
 function goToStep(step){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  if(step === 0){ document.getElementById('screen-hero').classList.add('active'); return; }
+  if(step === 0){ 
+    document.getElementById('screen-hero').classList.add('active'); 
+    updateFooterVisibility(false);
+    return; 
+  }
   currentQ = step - 1;
   document.getElementById('screen-quiz').classList.add('active');
+  updateFooterVisibility(false);
   renderQuestion();
 }
 
@@ -679,6 +696,7 @@ function buildDynamicReport(){
 function startAnalysis(){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-analysis').classList.add('active');
+  updateFooterVisibility(false);
 
   const stepText = document.getElementById('stepText');
   const stepIcon = document.getElementById('stepIcon');
@@ -731,6 +749,7 @@ function startAnalysis(){
       setTimeout(()=>{
         document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
         document.getElementById('screen-report').classList.add('active');
+        updateFooterVisibility(true); // Rende visibile il footer solo qui
       }, 800);
     }
   }
