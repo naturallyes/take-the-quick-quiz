@@ -197,7 +197,8 @@ img{max-width:100%; display:block;}
   font-size:11.5px; color:var(--muted-2); text-align:center; margin-top:10px; font-style:italic;
 }
 
-footer{padding:16px 0 24px; text-align:center;}
+footer{padding:16px 0 24px; text-align:center; display:none;}
+footer.active{display:block;}
 footer .compliance{font-size:11px; color:var(--muted-2); line-height:1.45; margin-bottom:8px; text-align:justify;}
 footer .links{font-size:11.5px; color:var(--muted-2);}
 footer .links a{color:var(--muted-2); text-decoration:underline; cursor:pointer;}
@@ -378,7 +379,7 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
 
 </div>
 
-<footer>
+<footer class="active" id="pageFooter">
   <div class="wrap">
     <div class="compliance">
       This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.<br><br>
@@ -546,9 +547,23 @@ let currentQ = 0;
 const answers = {};
 const collectedCards = [];
 
+function updateFooterVisibility(show) {
+  const footer = document.getElementById('pageFooter');
+  if (show) {
+    footer.classList.add('active');
+  } else {
+    footer.classList.remove('active');
+  }
+}
+
 function goToStep(step){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  if(step === 0){ document.getElementById('screen-hero').classList.add('active'); return; }
+  if(step === 0){ 
+    document.getElementById('screen-hero').classList.add('active'); 
+    updateFooterVisibility(true);
+    return; 
+  }
+  updateFooterVisibility(false);
   currentQ = step - 1;
   document.getElementById('screen-quiz').classList.add('active');
   renderQuestion();
@@ -731,6 +746,7 @@ function startAnalysis(){
       setTimeout(()=>{
         document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
         document.getElementById('screen-report').classList.add('active');
+        updateFooterVisibility(true);
       }, 800);
     }
   }
