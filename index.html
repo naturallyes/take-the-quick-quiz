@@ -307,7 +307,7 @@ fbq('track', 'PageView');
 
         <div class="divider"></div>
         <div class="body-text">Many people over 50 are discovering a refreshing morning routine designed to fit their unique lifestyle. However, because what works for someone else might not work for you, take this quick evaluation to see if this approach matches your daily needs.</div>
-        <button class="btn" onclick="goToStep(1)">START QUIZ →</button>
+        <button class="btn" onclick="trackQuizStart(); goToStep(1);">START QUIZ →</button>
       </div>
     </div>
   </section>
@@ -571,6 +571,46 @@ let currentQ = 0;
 const answers = {};
 const collectedCards = [];
 
+// Funzione di tracciamento GA4: Start Quiz
+function trackQuizStart() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'quiz_start', {
+      'event_category': 'Engagement',
+      'event_label': 'Start Quiz Click'
+    });
+  }
+}
+
+// Funzione di tracciamento GA4: Progresso Domande (utile per bounce rate per domanda)
+function trackQuizStep(stepNumber) {
+  if (typeof gtag === 'function') {
+    gtag('event', 'quiz_step_progress', {
+      'event_category': 'Quiz',
+      'event_label': 'Question ' + stepNumber
+    });
+  }
+}
+
+// Funzione di tracciamento GA4: Completamento Quiz / Arrivo al Report
+function trackQuizComplete() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'quiz_complete', {
+      'event_category': 'Conversion',
+      'event_label': 'Report Reached'
+    });
+  }
+}
+
+// Funzione di tracciamento GA4: Click Affiliazione ClickBank
+function trackAffiliateClick() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'click_affiliate', {
+      'event_category': 'Monetization',
+      'event_label': 'Check Availability Click'
+    });
+  }
+}
+
 function goToStep(step){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const footer = document.getElementById('siteFooter');
@@ -598,6 +638,9 @@ function renderQuestion(){
   const q = QUESTIONS[currentQ];
   document.getElementById('progressFill').style.width = ((currentQ+1)/QUESTIONS.length*100) + '%';
   document.getElementById('qTitle').textContent = q.text;
+
+  // Traccia il passaggio alla domanda corrente
+  trackQuizStep(q.n);
 
   const optsWrap = document.getElementById('qOpts');
   optsWrap.innerHTML = '';
@@ -708,6 +751,9 @@ function buildDynamicReport(){
 }
 
 function startAnalysis(){
+  // Traccia il completamento del quiz nel momento in cui parte l'analisi
+  trackQuizComplete();
+
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-analysis').classList.add('active');
   document.getElementById('siteFooter').classList.remove('show');
@@ -774,6 +820,10 @@ function startAnalysis(){
 
 function handleAffiliateRedirect(event){
   event.preventDefault();
+  
+  // Traccia il click sul link d'affiliazione ClickBank
+  trackAffiliateClick();
+
   const btn = document.getElementById('checkAvailabilityBtn');
   const ring = document.getElementById('btnProgressRing');
   
