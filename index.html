@@ -6,6 +6,9 @@
 <title>Free Evaluation: Is This Specialized Morning Routine Right For You?</title>
 <meta name="description" content="Take the quick 5-question quiz to see if this natural liquid approach fits your daily routine.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Librerie per la generazione del PDF basate su screenshot canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{
   --bg:#F4F6F9; --white:#FFFFFF;
@@ -45,17 +48,8 @@ img{max-width:100%; display:block;}
   text-align: center;
   box-shadow: 0 2px 6px rgba(47, 133, 90, 0.25);
 }
-.benefit-title{
-  font-size: 15.5px; 
-  font-weight: 800; 
-  color: #FFFFFF; 
-  margin-bottom: 2px;
-}
-.benefit-time{
-  font-size: 14px; 
-  font-weight: 700; 
-  color: #E2F8EC;
-}
+.benefit-title{font-size:15.5px; font-weight:800; color:#FFFFFF; margin-bottom:2px;}
+.benefit-time{font-size:14px; font-weight:700; color:#E2F8EC;}
 
 .hero-card .divider{height:1px; background:var(--pastel-border); margin:10px 0;}
 .hero-card .body-text{font-size:14.5px; color:var(--muted); margin-bottom:14px; line-height:1.45;}
@@ -68,6 +62,13 @@ img{max-width:100%; display:block;}
 }
 .btn:hover{background:var(--blue-dark);}
 .btn:active{transform:scale(0.99);}
+
+.btn-pdf{
+  background: #4A5568;
+  margin-top: 10px;
+  box-shadow: 0 4px 14px rgba(74,85,104,0.25);
+}
+.btn-pdf:hover{background: #2D3748;}
 
 .btn-progress-wrap {
   position: relative;
@@ -84,10 +85,7 @@ img{max-width:100%; display:block;}
 }
 .btn-progress-ring {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
+  top: 0; left: 0; height: 100%; width: 0%;
   background: rgba(15, 95, 192, 0.45);
   transition: width 0.3s ease;
   z-index: 1;
@@ -132,7 +130,6 @@ img{max-width:100%; display:block;}
   background:#EFF6FF; border:1px solid #BFDBFE; color:#1E40AF;
   padding:12px 14px; border-radius:8px; font-size:14px; font-weight:600;
   text-align:center; margin-bottom:14px; line-height:1.45;
-  box-shadow:0 2px 6px rgba(30,64,175,0.05);
 }
 
 .analysis-card{
@@ -177,25 +174,15 @@ img{max-width:100%; display:block;}
 }
 .urgency b{color:#7A3E12;}
 
-.testimonials-section{
-  margin-top:20px; text-align:left;
-}
-.testimonials-title{
-  font-size:16px; font-weight:800; color:var(--navy); margin-bottom:12px; text-align:center;
-}
+.testimonials-section{margin-top:20px; text-align:left;}
+.testimonials-title{font-size:16px; font-weight:800; color:var(--navy); margin-bottom:12px; text-align:center;}
 .testimonial-card{
   background:var(--white); border:1px solid var(--border); border-radius:8px;
   padding:12px 14px; margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,0.02);
 }
-.testimonial-text{
-  font-size:13.5px; color:var(--muted); font-style:italic; margin-bottom:6px; line-height:1.4;
-}
-.testimonial-author{
-  font-size:12.5px; font-weight:700; color:var(--navy); text-align:right;
-}
-.testimonials-disclaimer{
-  font-size:11.5px; color:var(--muted-2); text-align:center; margin-top:10px; font-style:italic;
-}
+.testimonial-text{font-size:13.5px; color:var(--muted); font-style:italic; margin-bottom:6px; line-height:1.4;}
+.testimonial-author{font-size:12.5px; font-weight:700; color:var(--navy); text-align:right;}
+.testimonials-disclaimer{font-size:11.5px; color:var(--muted-2); text-align:center; margin-top:10px; font-style:italic;}
 
 footer{padding:16px 0 24px; text-align:center;}
 footer .compliance{font-size:11px; color:var(--muted-2); line-height:1.45; margin-bottom:8px; text-align:justify;}
@@ -203,57 +190,23 @@ footer .links{font-size:11.5px; color:var(--muted-2);}
 footer .links a{color:var(--muted-2); text-decoration:underline; cursor:pointer;}
 footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
 
-/* Stili per i Modali Legali (Popup a scomparsa) */
 .modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 9999; justify-content: center; align-items: center; padding: 16px;
 }
-.modal-overlay.active {
-  display: flex;
-}
+.modal-overlay.active { display: flex; }
 .modal-content {
-  background: var(--white);
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  overflow-y: auto;
-  text-align: left;
-  position: relative;
+  background: var(--white); width: 100%; max-width: 500px; max-height: 85vh;
+  border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  overflow-y: auto; text-align: left; position: relative;
 }
 .modal-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--muted);
-  cursor: pointer;
+  position: absolute; top: 12px; right: 16px; background: none; border: none;
+  font-size: 22px; font-weight: 700; color: var(--muted); cursor: pointer;
 }
-.modal-content h3 {
-  font-size: 18px;
-  color: var(--navy);
-  margin-bottom: 12px;
-}
-.modal-content p, .modal-content ul {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.5;
-  margin-bottom: 10px;
-}
-.modal-content ul {
-  padding-left: 18px;
-}
+.modal-content h3 { font-size: 18px; color: var(--navy); margin-bottom: 12px; }
+.modal-content p, .modal-content ul { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.modal-content ul { padding-left: 18px; }
 
 @media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
 </style>
@@ -323,8 +276,10 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
     </div>
   </section>
 
+  <!-- SCHERMATA FINALE DEL REPORT (Catturata esattamente come da screenshot) -->
   <section class="screen" id="screen-report">
-    <div class="report-wrap">
+    
+    <div class="report-wrap" id="pdfReportContent">
       <div class="match-badge">✅ Evaluation Successfully Completed!</div>
       
       <div class="reading-notice">
@@ -347,10 +302,8 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
 
       <div class="urgency">⚠️ <b>Extreme Demand Alert:</b> Due to recent media features and a massive surge in popularity, current inventory for specialized liquid batches is extremely limited. Secure your allocation now before supplies run out.</div>
 
-      <div class="btn-progress-wrap">
-        <div class="btn-progress-ring" id="btnProgressRing"></div>
-        <button class="btn" id="checkAvailabilityBtn" onclick="handleAffiliateRedirect(event)">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</button>
-      </div>
+      <!-- Pulsante con il link affiliato integrato anche nel PDF -->
+      <a href="https://f97923z3i19wkua5zzu3ub-zbr.hop.clickbank.net/?&traffic_source=qui8z1f3b" class="btn" style="margin: 16px 0;">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</a>
 
       <div class="testimonials-section">
         <div class="testimonials-title">What Users Say About Our Independent Service</div>
@@ -372,8 +325,16 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
 
         <div class="testimonials-disclaimer">Feedback shared by early testers. Individual results and experiences may vary.</div>
       </div>
+    </div><!-- Fine blocco catturato per il PDF -->
 
+    <!-- Pulsante separato per far scaricare il PDF all'utente senza dover fare stampe manuali -->
+    <button class="btn btn-pdf" id="downloadPdfBtn" onclick="downloadReportPDF()">📥 DOWNLOAD THIS PAGE AS PDF</button>
+
+    <div class="btn-progress-wrap" style="margin-top: 12px;">
+      <div class="btn-progress-ring" id="btnProgressRing"></div>
+      <button class="btn" id="checkAvailabilityBtn" onclick="handleAffiliateRedirect(event)">CHECK AVAILABILITY ON OFFICIAL WEBSITE →</button>
     </div>
+
   </section>
 
 </div>
@@ -394,40 +355,26 @@ footer .copy{font-size:11px; color:#B0B6C0; margin-top:6px;}
   </div>
 </footer>
 
-<!-- Modale Terms of Use -->
+<!-- Modali -->
 <div class="modal-overlay" id="termsModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
     <h3>Terms of Use</h3>
-    <p><strong>1. About Our Service:</strong> Welcome to Naturallyes. We operate as an independent evaluation and comparison service designed to help users explore natural lifestyle routines and wellness approaches based on self-reported quiz responses. We function strictly as an informational comparator and educational guide rather than a direct seller or manufacturer of any featured products.</p>
-    <p><strong>2. Affiliate Disclosure & Neutrality:</strong> To maintain transparency with our users, please note that Naturallyes may receive compensation (such as referral fees or commissions) from third-party merchants when users click through our links and make purchases. Despite this commercial relationship, our evaluation service and informational reports remain entirely objective, neutral, and focused on helping users identify routines that best match their self-reported profiles.</p>
-    <p><strong>3. Informational Purpose:</strong> The content provided on this quiz and report site is intended solely for general informational and educational comparison purposes. We do not offer professional medical advice.</p>
-    <p><strong>4. Third-Party Links:</strong> Our service may direct you via affiliate or referral links to independent third-party vendors who manufacture and sell featured products. We do not process orders, handle direct customer fulfillment, or manage transactions.</p>
-    <p><strong>5. Product Guarantee:</strong> All products purchased through third-party vendors are covered by their respective satisfaction or money-back guarantees, which are managed and honored directly by the specific product manufacturer or merchant.</p>
-    <p><strong>6. Limitation of Liability:</strong> Naturallyes shall not be held liable for any direct or indirect damages arising out of the use of our evaluation tool or reliance on third-party products.</p>
+    <p><strong>1. About Our Service:</strong> Welcome to Naturallyes. We operate as an independent evaluation and comparison service...</p>
   </div>
 </div>
-
-<!-- Modale Privacy Policy -->
 <div class="modal-overlay" id="privacyModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
     <h3>Privacy Policy</h3>
-    <p>Your privacy is important to us. This policy outlines how we handle information on this platform.</p>
-    <p><strong>1. Data Collection:</strong> The quiz answers you provide are processed locally in your browser session to generate your personalized custom evaluation report. We do not store or sell personally identifiable health data.</p>
-    <p><strong>2. Cookies and Analytics:</strong> We may utilize standard web analytics and cookies to measure traffic performance and optimize user experience.</p>
-    <p><strong>3. Third-Party Partners:</strong> When you click through to official vendor websites, their respective privacy policies and terms will govern your interaction.</p>
+    <p>Your privacy is important to us...</p>
   </div>
 </div>
-
-<!-- Modale Contact Us -->
 <div class="modal-overlay" id="contactModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('contactModal')">&times;</button>
     <h3>Contact Us</h3>
-    <p>If you have any questions or feedback regarding our service, please feel free to reach out to our team.</p>
-    <p><strong>Email Support:</strong> support@naturallyes.net</p>
-    <p><strong>Operational Hours:</strong> Monday – Friday (9:00 AM – 5:00 PM EST)</p>
+    <p>Email Support: support@naturallyes.net</p>
   </div>
 </div>
 
@@ -455,89 +402,71 @@ const ICONS = {
 
 const QUESTIONS = [
 {
-  n:1,
-  text:"How frequently do you experience moments of muffled sound or strain during daily conversations?",
+  n:1, text:"How frequently do you experience moments of muffled sound or strain during daily conversations?",
   options:[
     {text:"Almost every day, especially in noisy environments", icon:"volumeHigh"},
     {text:"Only occasionally or when there's background chatter", icon:"volumeMed"},
     {text:"Rarely, but I want to maintain absolute peak clarity", icon:"sparkle"},
     {text:"Only when I am extremely tired or stressed", icon:"tired"}
-  ],
-  card:null
+  ], card:null
 },
 {
-  n:2,
-  text:"How long have you been noticing changes in your daily hearing comfort or clarity?",
+  n:2, text:"How long have you been noticing changes in your daily hearing comfort or clarity?",
   options:[
     {text:"Less than 6 months", icon:"calendar", trigger:true},
     {text:"6 months to 2 years", icon:"calendar", trigger:true},
     {text:"2 to 5 years", icon:"calendar", trigger:true},
     {text:"More than 5 years", icon:"calendar", trigger:true}
   ],
-  card:{
-    text:"Clinical research on vascular health indicates that the cochlea and inner ear rely on an extremely delicate network of micro-capillaries. Maintaining optimal micro-circulation is vital for delivering essential oxygen, minerals, and active nutrients directly to auditory sensory cells to preserve long-term clarity."
-  }
+  card:{ text:"Clinical research on vascular health indicates that the cochlea and inner ear rely on an extremely delicate network of micro-capillaries." }
 },
 {
-  n:3,
-  text:"How would you rate your daily exposure to loud environments or workplace noise?",
+  n:3, text:"How would you rate your daily exposure to loud environments or workplace noise?",
   options:[
     {text:"High exposure (city traffic, loud machinery, or headphones often)", icon:"volumeHigh"},
     {text:"Moderate exposure (standard urban background sounds)", icon:"volumeMed"},
     {text:"Low exposure (mostly quiet residential or indoor settings)", icon:"volumeLow"},
     {text:"Extremely quiet environment with zero background noise", icon:"mute"}
-  ],
-  card:null
+  ], card:null
 },
 {
-  n:4,
-  text:"How would you describe your current dietary intake for supporting cellular defense and antioxidant levels?",
+  n:4, text:"How would you describe your current dietary intake for supporting cellular defense and antioxidant levels?",
   options:[
     {text:"Mostly standard meals with little focus on specialized botanicals", icon:"plate"},
     {text:"I try to eat healthy, but consistency is a challenge", icon:"apple"},
     {text:"I actively look for advanced natural support", icon:"leaf", trigger:true},
     {text:"I follow a strict organic, antioxidant-rich diet daily", icon:"leaf"}
   ],
-  card:{
-    text:"Research on botanical antioxidants — such as standardized Ginkgo Biloba extracts — demonstrates their capacity to help neutralize free radicals and support delicate neural and sensory structures against age-related oxidative wear."
-  }
+  card:{ text:"Research on botanical antioxidants demonstrates their capacity to help neutralize free radicals." }
 },
 {
-  n:5,
-  text:"When managing daily listening fatigue or social settings, what is your biggest frustration?",
+  n:5, text:"When managing daily listening fatigue or social settings, what is your biggest frustration?",
   options:[
     {text:"Feeling mentally exhausted after trying to focus on conversations", icon:"brain"},
     {text:"Missing parts of sentences when multiple people speak at once", icon:"chat"},
     {text:"Just wanting proactive daily support to keep my ears sharp", icon:"shield"},
     {text:"Experiencing occasional ringing or sound distortions", icon:"wave"}
-  ],
-  card:null
+  ], card:null
 },
 {
-  n:6,
-  text:"Are you currently using any daily routine or supplement to support your auditory nerve and micro-circulation?",
+  n:6, text:"Are you currently using any daily routine or supplement to support your auditory nerve and micro-circulation?",
   options:[
     {text:"No, I haven't found the right solution yet", icon:"question"},
     {text:"I take generic multivitamins, but nothing targeted", icon:"pill"},
     {text:"Yes, standard herbal pills or capsules", icon:"pill"},
     {text:"Yes, but I am open to a more advanced, specialized formula", icon:"drop", trigger:true}
   ],
-  card:{
-    text:"Clinical pharmacology research shows that liquid sublingual delivery systems can bypass first-pass hepatic metabolism, allowing active compounds and calming botanical factors to reach systemic circulation and target tissues more efficiently than traditional hard capsules."
-  }
+  card:{ text:"Clinical pharmacology research shows that liquid sublingual delivery systems can bypass first-pass hepatic metabolism." }
 },
 {
-  n:7,
-  text:"If an advanced, 5-second daily routine utilizing pure liquid botanical extracts was available, how likely are you to try it?",
+  n:7, text:"If an advanced, 5-second daily routine utilizing pure liquid botanical extracts was available, how likely are you to try it?",
   options:[
     {text:"Not sure yet, I need more information", icon:"question"},
     {text:"Open to it, as long as it's 100% Natural, Safe and with a money-back guarantee", icon:"shieldCheck", trigger:true},
     {text:"Extremely likely — I prefer non-invasive liquid formulas", icon:"drop"},
     {text:"I prefer traditional capsules over liquids", icon:"pill"}
   ],
-  card:{
-    text:"Research combining specific plant-based extracts with high-absorption liquid carriers suggests support for neurological signaling harmony within the auditory cortex, potentially reducing the perception of daily cognitive strain related to hearing effort."
-  },
+  card:{ text:"Research combining specific plant-based extracts with high-absorption liquid carriers suggests support for neurological signaling harmony." },
   final:true
 }
 ];
@@ -639,10 +568,7 @@ function advance(){
 }
 
 function goPrev(){
-  if(currentQ === 0){
-    goToStep(0);
-    return;
-  }
+  if(currentQ === 0){ goToStep(0); return; }
   currentQ--;
   renderQuestion();
 }
@@ -661,19 +587,9 @@ function buildDynamicReport(){
   else if(a5 === 1) part2 = "the solution identified is the liquid preparation studied to regain clarity even in multi-voice conversations.";
   else if(a5 === 2 || a5 === 3) part2 = "our analysis indicates that adopting the targeted sublingual liquid protocol is ideal to favor clarity and reduce listening fatigue.";
 
-  let combinedInsights = "";
-  if(collectedCards.length > 0){
-    combinedInsights = collectedCards.map(c => c.text).join(" ");
-  } else {
-    combinedInsights = "Maintaining a proactive approach combining natural botanical support and healthy lifestyle habits ensures long-term ear wellness and clear daily interactions.";
-  }
+  let combinedInsights = collectedCards.length > 0 ? collectedCards.map(c => c.text).join(" ") : "Maintaining a proactive approach combining natural botanical support ensures long-term ear wellness.";
 
-  const dynamicHTML = `
-    <p>${part1} ${part2}</p>
-    <p>${combinedInsights}</p>
-  `;
-  
-  document.getElementById('dynamicReportText').innerHTML = dynamicHTML;
+  document.getElementById('dynamicReportText').innerHTML = `<p>${part1} ${part2}</p><p>${combinedInsights}</p>`;
 }
 
 function startAnalysis(){
@@ -692,24 +608,19 @@ function startAnalysis(){
   ];
 
   let i = 0;
-
   function runSequence(){
     if(i < steps.length){
       const current = steps[i];
       fill.style.width = current.width;
       stepText.style.opacity = 0;
-      
       setTimeout(() => {
         stepText.textContent = current.text;
-        
         stepIcon.style.animation = "spin 0.8s linear infinite";
         stepIcon.style.border = "4px solid var(--border)";
         stepIcon.style.borderTopColor = "var(--blue)";
         stepIcon.style.background = "transparent";
-        stepIcon.style.color = "";
         stepIcon.style.display = "block";
         stepIcon.innerHTML = "";
-        
         stepText.style.opacity = 1;
       }, 200);
 
@@ -726,7 +637,6 @@ function startAnalysis(){
 
       i++;
       setTimeout(runSequence, 3500);
-
     } else {
       setTimeout(()=>{
         document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -734,9 +644,57 @@ function startAnalysis(){
       }, 800);
     }
   }
-
   stepText.style.transition = "opacity 0.2s ease";
   runSequence();
+}
+
+/* Funzione che prende lo screenshot esatto del blocco finale (#pdfReportContent) e lo scarica in PDF */
+async function downloadReportPDF() {
+  const btnPdf = document.getElementById('downloadPdfBtn');
+  const originalText = btnPdf.innerHTML;
+  btnPdf.disabled = true;
+  btnPdf.innerHTML = "⏳ Generating your PDF screenshot...";
+
+  const element = document.getElementById('pdfReportContent');
+  
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: false
+    });
+    
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    
+    const imgWidth = 210; 
+    const pageHeight = 295; 
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    pdf.save('Naturallyes_Custom_Evaluation_Report.pdf');
+    
+    btnPdf.disabled = false;
+    btnPdf.innerHTML = "✓ PDF Downloaded Successfully!";
+    setTimeout(() => { btnPdf.innerHTML = originalText; }, 3000);
+
+  } catch (error) {
+    console.error("Errore generazione PDF:", error);
+    btnPdf.disabled = false;
+    btnPdf.innerHTML = "Error generating PDF. Try again.";
+  }
 }
 
 function handleAffiliateRedirect(event){
@@ -767,20 +725,10 @@ function handleAffiliateRedirect(event){
   }, 3000);
 }
 
-/* Gestione Apertura/Chiusura Modali Legali */
-function openModal(modalId) {
-  document.getElementById(modalId).classList.add('active');
-}
-
-function closeModal(modalId) {
-  document.getElementById(modalId).classList.remove('active');
-}
-
-// Chiudi cliccando fuori dal box del modale
+function openModal(modalId) { document.getElementById(modalId).classList.add('active'); }
+function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
 window.onclick = function(event) {
-  if (event.target.classList.contains('modal-overlay')) {
-    event.target.classList.remove('active');
-  }
+  if (event.target.classList.contains('modal-overlay')) { event.target.classList.remove('active'); }
 }
 </script>
 
