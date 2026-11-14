@@ -1,0 +1,96 @@
+name: Generate Teds V1 media assets
+
+on:
+  push:
+    paths:
+      - '.github/workflows/generate-teds-v1-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Generate TedsWoodworking V1 images and video
+        shell: bash
+        run: |
+          mkdir -p img video
+          cat > /tmp/generate_teds_v1.py <<'PY'
+          from PIL import Image, ImageDraw, ImageFont
+          from pathlib import Path
+
+          assets = [
+              ("tEuwufu6laBTO2Q.jpg","TEDSWOODWORKING REVIEW","16,000+ PLANS • 2026",1200,630),
+              ("jtdOg8wNBsphQsi.jpg","WHAT YOU GET","BEFORE ORDERING",1200,630),
+              ("UuNANqEsSaUeAPi.jpg","TEDSWOODWORKING REVIEW","PRODUCT OVERVIEW",1280,720),
+              ("ToaCVjjEL6kNwZc.jpg","16,000+ PLANS","SEARCHABLE LIBRARY",1200,630),
+              ("8dGJMYj9YtVYkxG.jpg","CUT LISTS","MATERIALS + SCHEMATICS",1200,630),
+              ("4appiGcFWajnbbM.jpg","100+ CATEGORIES","BEGINNER → ADVANCED",1200,630),
+              ("tyDVWLA6vOMBT9G.jpg","CURRENT OFFER","$67 LIFETIME ACCESS",1200,630),
+              ("T4WrMLBYnRZhNKc.jpg","60-DAY","MONEY-BACK GUARANTEE",1200,630),
+              ("n2daI513V83coAT.jpg","BONUS RESOURCES","CAD • VIDEOS • GUIDES",1200,630),
+              ("LPQmlPZlC9F3QMj.jpg","PRODUCT OVERVIEW","TEDSWOODWORKING REVIEW",1200,630),
+              ("Bmout3prrufR6jB.jpg","TEDSWOODWORKING","REVIEW 2026",1200,630),
+              ("SLVyvcWbTQ4RhEK.jpg","WHAT YOU GET","PLANS • ACCESS • GUARANTEE",1200,630),
+          ]
+
+          bold='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          reg='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+          out=Path('img')
+
+          for idx,(name,headline,sub,W,H) in enumerate(assets):
+              img=Image.new('RGB',(W,H),(52,35,22))
+              d=ImageDraw.Draw(img,'RGBA')
+              # wood-like horizontal bands
+              for y in range(0,H,18):
+                  v=38 + ((y//18 + idx*3) % 18)
+                  d.rectangle((0,y,W,min(H,y+18)),fill=(v+25,v+10,max(15,v-4),255))
+              d.rounded_rectangle((55,55,W-55,H-55),radius=34,fill=(8,18,28,225),outline=(255,210,120,115),width=3)
+              for k in range(6):
+                  yy=150+k*55
+                  d.line((int(W*.56),yy,W-110,yy),fill=(140,190,220,90),width=2)
+              d.rectangle((int(W*.64),190,int(W*.84),390),outline=(140,190,220,150),width=4)
+              d.line((int(W*.64),190,int(W*.84),390),fill=(140,190,220,130),width=2)
+              d.line((int(W*.84),190,int(W*.64),390),fill=(140,190,220,130),width=2)
+              f1=ImageFont.truetype(bold,62 if W==1200 else 66)
+              f2=ImageFont.truetype(bold,34)
+              f3=ImageFont.truetype(reg,22)
+              d.text((95,105),headline,font=f1,fill=(255,245,225,255))
+              d.text((98,200),sub,font=f2,fill=(255,197,83,255))
+              d.text((98,H-130),'Independent review • Product overview • Official offer details',font=f3,fill=(210,220,225,220))
+              d.rounded_rectangle((98,H-82,360,H-40),radius=18,fill=(255,183,60,235))
+              d.text((118,H-74),'TEDSWOODWORKING',font=ImageFont.truetype(bold,20),fill=(20,20,20,255))
+              img.save(out/name,quality=35,optimize=True,progressive=True)
+          PY
+          python /tmp/generate_teds_v1.py
+
+          ffmpeg -y -loglevel error -loop 1 -framerate 1             -i img/UuNANqEsSaUeAPi.jpg -t 734             -vf 'scale=640:360,format=yuv420p'             -c:v libx264 -preset ultrafast -tune stillimage -crf 45             -movflags +faststart video/EP946I5B2P1JB08YZ.mp4
+
+          test "$(find img -maxdepth 1 -type f -name '*.jpg' | wc -l)" -eq 12
+          test -s video/EP946I5B2P1JB08YZ.mp4
+
+      - name: Commit generated assets
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             img/tEuwufu6laBTO2Q.jpg             img/jtdOg8wNBsphQsi.jpg             img/UuNANqEsSaUeAPi.jpg             img/ToaCVjjEL6kNwZc.jpg             img/8dGJMYj9YtVYkxG.jpg             img/4appiGcFWajnbbM.jpg             img/tyDVWLA6vOMBT9G.jpg             img/T4WrMLBYnRZhNKc.jpg             img/n2daI513V83coAT.jpg             img/LPQmlPZlC9F3QMj.jpg             img/Bmout3prrufR6jB.jpg             img/SLVyvcWbTQ4RhEK.jpg             video/EP946I5B2P1JB08YZ.mp4
+          if git diff --cached --quiet; then
+            echo "Assets already exist; nothing to commit."
+          else
+            git commit -m "Generate TedsWoodworking V1 media assets"
+            git push origin HEAD:main
+          fi
