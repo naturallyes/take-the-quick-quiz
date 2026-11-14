@@ -1,4 +1,4 @@
-name: Generate Teds V3 media assets
+name: Generate Teds V4 media assets
 
 on:
   push:
@@ -29,27 +29,27 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Generate TedsWoodworking V3 images and video
+      - name: Generate TedsWoodworking V4 images and video
         shell: bash
         run: |
           mkdir -p img video
-          cat > /tmp/generate_teds_v3.py <<'PY'
+          cat > /tmp/generate_teds_v4.py <<'PY'
           from PIL import Image, ImageDraw, ImageFont
           from pathlib import Path
 
           assets = [
-              ("V3q8Nm2Kx7Rp5Ta.jpg","TEDSWOODWORKING REVIEWS","COMMON COMPLAINTS",1200,630),
-              ("R7m4Qx9Vp2Kn6Tb.jpg","BUYER CONCERNS","BEFORE PURCHASING",1200,630),
-              ("K5p9Nv3Tx7Mr2Qa.jpg","REVIEWS + COMPLAINTS","WHAT TO CHECK",1280,720),
-              ("M8x2Rq6Vn4Kp7Ta.jpg","PLAN LIBRARY","QUALITY + ORGANIZATION",1200,630),
-              ("Q4n7Vp3Mx9Kr2Tb.jpg","PROJECT DETAIL","CUT LISTS + DRAWINGS",1200,630),
-              ("T9m3Kx6Rq2Vp5Na.jpg","DIFFICULTY RANGE","BEGINNER → ADVANCED",1200,630),
-              ("P2v8Nr5Qx4Mk7Ta.jpg","PRICE CHECK","$67 LIFETIME ACCESS",1200,630),
-              ("X6q3Mv9Rp2Kt7Nb.jpg","REFUND TERMS","60-DAY GUARANTEE",1200,630),
-              ("N4x7Kq2Vm8Rp5Ta.jpg","BONUS CONTENT","CAD + 150 VIDEOS",1200,630),
-              ("B9m2Vq5Rx7Kn3Ta.jpg","CUSTOMER FEEDBACK","WHAT TO VERIFY",1200,630),
-              ("C6p8Nx3Qr5Mv2Tb.jpg","TEDSWOODWORKING","COMPLAINTS REVIEW 2026",1200,630),
-              ("H7x4Kq9Mv2Rp6Na.jpg","BUYER CHECKLIST","QUALITY • ACCESS • REFUND",1200,630),
+              ("W4n7Qp2Mx9Kr5Ta.jpg","TEDSWOODWORKING REVIEW","SCAM OR LEGIT?",1200,630),
+              ("R8m3Vx6Kq2Np7Tb.jpg","LEGITIMACY CHECK","WHAT TO VERIFY",1200,630),
+              ("K7p2Nv9Tx4Mr6Qa.jpg","SCAM OR LEGIT","OFFER + PURCHASE PATH",1280,720),
+              ("M5x8Rq3Vn7Kp2Ta.jpg","PLAN CLAIMS","LIBRARY + ACCESS",1200,630),
+              ("Q2n9Vp4Mx6Kr7Tb.jpg","PURCHASE PATH","OFFICIAL CHECKOUT",1200,630),
+              ("T6m3Kx8Rq5Vp2Na.jpg","REFUND TERMS","60-DAY GUARANTEE",1200,630),
+              ("P9v2Nr5Qx7Mk4Ta.jpg","PRICE CHECK","$67 LIFETIME ACCESS",1200,630),
+              ("X3q7Mv9Rp4Kt2Nb.jpg","BUYER PROTECTION","CHECK TERMS FIRST",1200,630),
+              ("N5x2Kq8Vm7Rp3Ta.jpg","BONUS CONTENT","CAD + 150 VIDEOS",1200,630),
+              ("B4m9Vq2Rx6Kn7Ta.jpg","LEGIT CHECK","WHAT BUYERS SHOULD SEE",1200,630),
+              ("C8p3Nx5Qr2Mv7Tb.jpg","TEDSWOODWORKING","LEGITIMACY REVIEW 2026",1200,630),
+              ("H2x7Kq4Mv9Rp5Na.jpg","VERIFICATION CHECKLIST","OFFER • ACCESS • REFUND",1200,630),
           ]
 
           bold='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
@@ -57,41 +57,41 @@ jobs:
           out=Path('img')
 
           for idx,(name,headline,sub,W,H) in enumerate(assets):
-              img=Image.new('RGB',(W,H),(41,29,22))
+              img=Image.new('RGB',(W,H),(36,30,23))
               d=ImageDraw.Draw(img,'RGBA')
               for y in range(0,H,18):
-                  v=35 + ((y//18 + idx*4) % 21)
-                  d.rectangle((0,y,W,min(H,y+18)),fill=(v+24,v+8,max(10,v-7),255))
-              d.rounded_rectangle((55,55,W-55,H-55),radius=34,fill=(9,18,28,230),outline=(235,188,98,120),width=3)
+                  v=34 + ((y//18 + idx*6) % 20)
+                  d.rectangle((0,y,W,min(H,y+18)),fill=(v+23,v+8,max(11,v-6),255))
+              d.rounded_rectangle((55,55,W-55,H-55),radius=34,fill=(8,18,28,230),outline=(239,190,98,120),width=3)
               for k in range(5):
                   yy=165+k*52
-                  d.line((int(W*.58),yy,W-120,yy),fill=(125,184,214,82),width=2)
-              d.rectangle((int(W*.66),195,int(W*.86),385),outline=(125,184,214,145),width=4)
-              d.line((int(W*.66),195,int(W*.86),385),fill=(125,184,214,120),width=2)
-              d.line((int(W*.86),195,int(W*.66),385),fill=(125,184,214,120),width=2)
+                  d.line((int(W*.58),yy,W-120,yy),fill=(124,184,214,84),width=2)
+              d.rectangle((int(W*.66),195,int(W*.86),385),outline=(124,184,214,145),width=4)
+              d.line((int(W*.66),195,int(W*.86),385),fill=(124,184,214,120),width=2)
+              d.line((int(W*.86),195,int(W*.66),385),fill=(124,184,214,120),width=2)
               f1=ImageFont.truetype(bold,58 if W==1200 else 62)
               f2=ImageFont.truetype(bold,34)
               f3=ImageFont.truetype(reg,22)
               d.text((95,105),headline,font=f1,fill=(255,246,229,255))
               d.text((98,200),sub,font=f2,fill=(244,190,83,255))
-              d.text((98,H-130),'Independent review • Buyer concerns • Purchase terms',font=f3,fill=(211,221,226,220))
+              d.text((98,H-130),'Independent review • Legitimacy check • Purchase terms',font=f3,fill=(211,221,226,220))
               d.rounded_rectangle((98,H-82,365,H-40),radius=18,fill=(244,180,61,235))
               d.text((118,H-74),'TEDSWOODWORKING',font=ImageFont.truetype(bold,20),fill=(20,20,20,255))
               img.save(out/name,quality=35,optimize=True,progressive=True)
           PY
-          python /tmp/generate_teds_v3.py
+          python /tmp/generate_teds_v4.py
 
-          ffmpeg -y -loglevel error -loop 1 -framerate 1             -i img/K5p9Nv3Tx7Mr2Qa.jpg -t 748             -vf 'scale=640:360,format=yuv420p'             -c:v libx264 -preset ultrafast -tune stillimage -crf 45             -movflags +faststart video/0JEOLHX7LVI2SLJYQ.mp4
+          ffmpeg -y -loglevel error -loop 1 -framerate 1             -i img/K7p2Nv9Tx4Mr6Qa.jpg -t 781             -vf 'scale=640:360,format=yuv420p'             -c:v libx264 -preset ultrafast -tune stillimage -crf 45             -movflags +faststart video/JOLDJ1461WZJVWX7N.mp4
 
-          for f in             V3q8Nm2Kx7Rp5Ta.jpg R7m4Qx9Vp2Kn6Tb.jpg K5p9Nv3Tx7Mr2Qa.jpg M8x2Rq6Vn4Kp7Ta.jpg             Q4n7Vp3Mx9Kr2Tb.jpg T9m3Kx6Rq2Vp5Na.jpg P2v8Nr5Qx4Mk7Ta.jpg X6q3Mv9Rp2Kt7Nb.jpg             N4x7Kq2Vm8Rp5Ta.jpg B9m2Vq5Rx7Kn3Ta.jpg C6p8Nx3Qr5Mv2Tb.jpg H7x4Kq9Mv2Rp6Na.jpg; do
+          for f in             W4n7Qp2Mx9Kr5Ta.jpg R8m3Vx6Kq2Np7Tb.jpg K7p2Nv9Tx4Mr6Qa.jpg M5x8Rq3Vn7Kp2Ta.jpg             Q2n9Vp4Mx6Kr7Tb.jpg T6m3Kx8Rq5Vp2Na.jpg P9v2Nr5Qx7Mk4Ta.jpg X3q7Mv9Rp4Kt2Nb.jpg             N5x2Kq8Vm7Rp3Ta.jpg B4m9Vq2Rx6Kn7Ta.jpg C8p3Nx5Qr2Mv7Tb.jpg H2x7Kq4Mv9Rp5Na.jpg; do
             test -s "img/$f"
           done
-          test -s video/0JEOLHX7LVI2SLJYQ.mp4
-          duration="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 video/0JEOLHX7LVI2SLJYQ.mp4)"
+          test -s video/JOLDJ1461WZJVWX7N.mp4
+          duration="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 video/JOLDJ1461WZJVWX7N.mp4)"
           python - "$duration" <<'PY'
           import sys
           d=float(sys.argv[1])
-          assert 747 <= d <= 749, d
+          assert 780 <= d <= 782, d
           PY
 
       - name: Commit generated assets
@@ -99,12 +99,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             img/V3q8Nm2Kx7Rp5Ta.jpg             img/R7m4Qx9Vp2Kn6Tb.jpg             img/K5p9Nv3Tx7Mr2Qa.jpg             img/M8x2Rq6Vn4Kp7Ta.jpg             img/Q4n7Vp3Mx9Kr2Tb.jpg             img/T9m3Kx6Rq2Vp5Na.jpg             img/P2v8Nr5Qx4Mk7Ta.jpg             img/X6q3Mv9Rp2Kt7Nb.jpg             img/N4x7Kq2Vm8Rp5Ta.jpg             img/B9m2Vq5Rx7Kn3Ta.jpg             img/C6p8Nx3Qr5Mv2Tb.jpg             img/H7x4Kq9Mv2Rp6Na.jpg             video/0JEOLHX7LVI2SLJYQ.mp4
+          git add             img/W4n7Qp2Mx9Kr5Ta.jpg             img/R8m3Vx6Kq2Np7Tb.jpg             img/K7p2Nv9Tx4Mr6Qa.jpg             img/M5x8Rq3Vn7Kp2Ta.jpg             img/Q2n9Vp4Mx6Kr7Tb.jpg             img/T6m3Kx8Rq5Vp2Na.jpg             img/P9v2Nr5Qx7Mk4Ta.jpg             img/X3q7Mv9Rp4Kt2Nb.jpg             img/N5x2Kq8Vm7Rp3Ta.jpg             img/B4m9Vq2Rx6Kn7Ta.jpg             img/C8p3Nx5Qr2Mv7Tb.jpg             img/H2x7Kq4Mv9Rp5Na.jpg             video/JOLDJ1461WZJVWX7N.mp4
           if git diff --cached --quiet; then
             echo "Assets already exist; nothing to commit."
           else
-            git commit -m "Generate TedsWoodworking V3 media assets"
+            git commit -m "Generate TedsWoodworking V4 media assets"
             git push origin HEAD:main
           fi
 
-# trigger-2026-11-14-v3
+# trigger-2026-11-14-v4
